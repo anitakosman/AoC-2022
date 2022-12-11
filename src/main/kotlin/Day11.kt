@@ -10,7 +10,7 @@ fun main() {
         )
     }
     println(monkeyBusiness(monkeys, 20) { it / 3 })
-    println(monkeyBusiness(monkeys, 10000) { it.rem(monkeys.fold(1) { acc, m -> acc * m.test }) })
+    println(monkeyBusiness(monkeys, 10000) { it.rem(monkeys.map(Monkey::test).reduce(Int::times)) })
 }
 
 private fun monkeyBusiness(input: List<Monkey>, rounds: Int, relief: (Long) -> Long): Long {
@@ -36,17 +36,15 @@ data class Monkey(val items: List<Long>, val op: (Long) -> Long, val test: Int, 
 
 fun convertOp(op: String): (Long) -> Long {
     val (operator, operand) = op.split(" ")
-    return fun(x): Long {
-        return when (operator) {
-            "+" -> when (operand) {
-                "old" -> x + x
-                else -> x + operand.toLong()
-            }
+    return when (operator) {
+        "+" -> when (operand) {
+            "old" -> fun(x): Long { return x + x }
+            else -> fun(x): Long { return x + operand.toLong() }
+        }
 
-            else -> when (operand) {
-                "old" -> x * x
-                else -> x * operand.toLong()
-            }
+        else -> when (operand) {
+            "old" -> fun(x): Long { return x * x }
+            else -> fun(x): Long { return x * operand.toLong() }
         }
     }
 }
