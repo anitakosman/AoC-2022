@@ -14,7 +14,7 @@ private fun mix(input: List<Long>, numberOfMixings: Int = 1, init: (Long) -> Lon
             curr.prev = prev; curr.next = next
         }
 
-    (1..numberOfMixings).forEach { _ -> els.forEach {
+    repeat(numberOfMixings) { els.forEach {
         val t = ((it.value + size - 1) % (size - 1)).toInt()
         val steps = if (t > (size - 1) / 2) -size + 1 + t else t
         it.move(steps)
