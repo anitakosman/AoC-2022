@@ -50,23 +50,3 @@ fun followPath(input: String, spaces: Set<Pair<Int, Int>>, walls: Set<Pair<Int, 
 
     return pos to facing
 }
-
-enum class Facing(private val dx: Int, private val dy: Int) {
-    EAST(1, 0), SOUTH(0, 1), WEST(-1, 0), NORTH(0, -1);
-
-    fun move(pos: Pair<Int, Int>) = (pos.first + dx) to (pos.second + dy)
-
-    fun turnLeft() = when (this) {
-        EAST -> NORTH
-        SOUTH -> EAST
-        WEST -> SOUTH
-        NORTH -> WEST
-    }
-
-    fun turnRight() = when (this) {
-        EAST -> SOUTH
-        SOUTH -> WEST
-        WEST -> NORTH
-        NORTH -> EAST
-    }
-}
